@@ -1,0 +1,64 @@
+body {
+    background-color: #181818;
+    font-family: "Roboto", sans-serif;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 3em;
+    color: #00aaff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h2 {
+    font-size: 2em;
+    color: #00aaff;
+}
+
+h3 {
+    font-size: 1.6em;
+    color: #00aaff;
+}
+
+h4 {
+    font-size: 1.2em;
+    color: #00aaff;
+}
+
+#latest_firmware, #latest_firmware_label {
+    display: inline-block;
+    font-weight: bold;
+    color: #00aaff;
+}
+
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+input[type="button"] {
+    font-size: 16px;
+    border: 0;
+    padding: 10px 20px;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 5px;
+    background-color: #00aaff;
+    box-shadow: 0 4px 6px rgba(0, 170, 255, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="button"]:hover {
+    background-color: #0055aa;
+}
+
+input[type="button"]:active {
+    box-shadow: none;
+    transform: translateY(2px);
+}
