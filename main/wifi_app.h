@@ -14,14 +14,14 @@
 
 
 //wifi application setting
-#define WIFI_AP_SSID    			"ESP-32 OTA test"  //AP name
+#define WIFI_AP_SSID    			"ESP-32 AP"  //AP name
 #define WIFI_AP_PASSWORD			"12345678" //AP password
 #define WIFI_AP_CHANNEL				1			//AP Channel
 #define WIFI_AP_SSID_HIDDEN			0			//AP visibility
 #define WIFI_AP_MAX_CONNECTIONS		5			//AP max clients
 #define WIFI_AP_BEACON_INTERVAL		100			//Recommended by default
 
-#define WIFI_AP_IP					"192.168.10.8" //AP default IP
+#define WIFI_AP_IP					"192.168.10.1" //AP default IP
 #define WIFI_AP_GATEWAY				"192.168.0.1" //Default gateway
 #define WIFI_AP_NETMASK				"255.255.255.0" //default subnet mask
 #define WIFI_AP_BANDWIDTH			WIFI_BW_HT20 //AP bandwidth

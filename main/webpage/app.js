@@ -3,12 +3,13 @@
  */
 var seconds 	= null;
 var otaTimerVar =  null;
-
+var latestUpdateTime = null;
 /**
  * Initialize functions here.
  */
 $(document).ready(function(){
 	getUpdateStatus();
+    startDHT11SensorInterval();
 });   
 
 /**
@@ -79,9 +80,7 @@ function getUpdateStatus()
     if (xhr.readyState == 4 && xhr.status == 200) 
 	{		
         var response = JSON.parse(xhr.responseText);
-						
-	 	document.getElementById("latest_firmware").innerHTML = response.compile_date + " - " + response.compile_time
-
+        document.getElementById("latest_firmware").innerHTML = response.compile_date + " - " + response.compile_time
 		// If flashing was complete it will return a 1, else -1
 		// A return of 0 is just for information on the Latest Firmware request
         if (response.ota_update_status == 1) 
@@ -116,4 +115,22 @@ function otaRebootTimer()
     }
 }
 
+/**
+ * Gets DHT11 sensor temperature and humidity and status for displaying
+ */
+function getDHTSensorValues()
+{
+    $.getJSON('/dhtSensor.json',function(data){
+        $("#Sensor_status").text(data["status"]);
+        $("#temperature_Readings").text(data["temp"]);
+        $("#humidity_reading").text(data["humidity"]);
+    });
+}
 
+/**
+ * Sets the interval for getting the updated DHT11 sensor Value.
+ */
+function startDHT11SensorInterval()
+{
+    setInterval(getDHTSensorValues, 5000);
+}

@@ -117,8 +117,8 @@ CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=
 //Flags used by the linker during RELWITHDEBINFO builds.
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
-//Enable/Disable output of compile commands during generation.
-CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
+//No help, variable specified on the command line.
+CMAKE_EXPORT_COMPILE_COMMANDS:UNINITIALIZED=ON
 
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=D:/ESP32 Attendance System/udemy_esp32/build/CMakeFiles/pkgRedirects
@@ -160,7 +160,7 @@ CMAKE_INSTALL_MANDIR:PATH=
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/udemy_esp32_app
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/esp32_app
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
@@ -292,14 +292,11 @@ ENABLE_PROGRAMS:BOOL=
 //Build mbed TLS tests.
 ENABLE_TESTING:BOOL=
 
-//No help, variable specified on the command line.
-ESP_PLATFORM:UNINITIALIZED=1
-
 //Generate the auto-generated files as needed
 GEN_FILES:BOOL=
 
 //Git command line client
-GIT_EXECUTABLE:FILEPATH=C:/Espressif/tools/idf-git/2.39.2/cmd/git.exe
+GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
 
 //IDF Build Target
 IDF_TARGET:STRING=esp32
@@ -318,9 +315,6 @@ LINK_WITH_TRUSTED_STORAGE:BOOL=OFF
 
 //Compiler warnings treated as errors
 MBEDTLS_FATAL_WARNINGS:BOOL=ON
-
-//No help, variable specified on the command line.
-PYTHON_DEPS_CHECKED:UNINITIALIZED=1
 
 //Allow unsafe builds. These builds ARE NOT SECURE.
 UNSAFE_BUILD:BOOL=OFF
@@ -366,15 +360,6 @@ mbedtls_LIB_DEPENDS:STATIC=general;__idf_cxx;general;__idf_newlib;general;__idf_
 
 //Dependencies for the target
 mbedx509_LIB_DEPENDS:STATIC=general;__idf_cxx;general;__idf_newlib;general;__idf_freertos;general;__idf_esp_hw_support;general;__idf_heap;general;__idf_log;general;__idf_soc;general;__idf_hal;general;__idf_esp_rom;general;__idf_esp_common;general;__idf_esp_system;general;__idf_xtensa;general;mbedcrypto;
-
-//Value Computed by CMake
-udemy_esp32_app_BINARY_DIR:STATIC=D:/ESP32 Attendance System/udemy_esp32/build
-
-//Value Computed by CMake
-udemy_esp32_app_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-udemy_esp32_app_SOURCE_DIR:STATIC=D:/ESP32 Attendance System/udemy_esp32
 
 
 ########################
@@ -458,8 +443,6 @@ CMAKE_EXE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_EXE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_EXPORT_COMPILE_COMMANDS
-CMAKE_EXPORT_COMPILE_COMMANDS-ADVANCED:INTERNAL=1
 //Name of external makefile project generator.
 CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
@@ -566,9 +549,9 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
 C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS:INTERNAL=1
 //Details about finding Git
-FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Espressif/tools/idf-git/2.39.2/cmd/git.exe][v2.39.2.windows.1()]
+FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Program Files/Git/cmd/git.exe][v2.42.0.windows.2()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe][cfound components: Interpreter ][v3.11.2()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Users/hamxa/AppData/Local/Programs/Python/Python311/python.exe][cfound components: Interpreter ][v3.11.5()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include stddef.h
@@ -582,9 +565,10 @@ HAVE_TIME_T_SIZE:INTERNAL=TRUE
 //CHECK_TYPE_SIZE: sizeof(time_t)
 TIME_T_SIZE:INTERNAL=8
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/udemy_esp32_app
-_Python3_EXECUTABLE:INTERNAL=C:/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/esp32_app
+//Path to a program.
+_Python3_EXECUTABLE:INTERNAL=C:/Users/hamxa/AppData/Local/Programs/Python/Python311/python.exe
 //Python3 Properties
-_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;2;32;;;C:\Espressif\tools\idf-python\3.11.2\Lib;C:\Espressif\tools\idf-python\3.11.2\Lib;C:\Espressif\python_env\idf5.0_py3.11_env\Lib\site-packages;C:\Espressif\python_env\idf5.0_py3.11_env\Lib\site-packages
-_Python3_INTERPRETER_SIGNATURE:INTERNAL=847c93e0c2acb67ae3a18b8749a0bc3f
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;5;32;;;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib\site-packages;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib\site-packages
+_Python3_INTERPRETER_SIGNATURE:INTERNAL=715bad77f9bb4f2c47e1e583c9aeff6b
 

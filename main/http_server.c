@@ -9,6 +9,7 @@
 #include "esp_log.h"
 #include "sys/param.h"
 #include "http_server.h"
+#include "dht11.h"
 #include "esp_err.h"
 #include "esp_timer.h"
 #include "tasks_common.h"
@@ -293,7 +294,25 @@ esp_err_t http_server_OTA_status_handler(httpd_req_t *req)
 	httpd_resp_set_type(req, "application/json");
 	httpd_resp_send(req, otaJSON, strlen(otaJSON));
 	return ESP_OK;
-}	
+}
+/**
+ * @fn esp_err_t http_server_get_dhtSensor_readings_json_handler()
+ * @brief respond with dht11 sensor data
+ * 
+ * @param req  HTTP request for which the uri needs to be handled
+ * @return ESP_OK
+ */
+static esp_err_t http_server_get_dhtSensor_readings_json_handler(httpd_req_t *req)
+{
+	ESP_LOGI(TAG,"/dhtSensor.json requested");
+	char dhtSensorJSON[100];
+	sprintf(dhtSensorJSON,"{\"status\":\"%s\",\"temp\":\"%d\",\"humidity\":\"%d\"}",DHT11_read().status == DHT11_CRC_ERROR ? "CRC Error" :
+			DHT11_read().status == DHT11_TIMEOUT_ERROR ? "Timeout Error" :
+			DHT11_read().status == DHT11_OK ? "OK" : "Unknown Status",DHT11_read().temperature,DHT11_read().humidity);
+	httpd_resp_set_type(req, "application/json");
+	httpd_resp_send(req, dhtSensorJSON, strlen(dhtSensorJSON));
+	return ESP_OK;
+}
 
 static httpd_handle_t http_server_configure()
 {
@@ -382,6 +401,16 @@ static httpd_handle_t http_server_configure()
 				.user_ctx = NULL
 		};
 		httpd_register_uri_handler(http_server_handle, &OTA_status);
+		//register dhtSensor.json handler 
+		httpd_uri_t dht_sensor_json = {
+				.uri = "/dhtSensor.json",
+				.method = HTTP_GET,
+				.handler = http_server_get_dhtSensor_readings_json_handler,
+				.user_ctx = NULL
+		};
+		httpd_register_uri_handler(http_server_handle, &dht_sensor_json);
+		
+		
 		return http_server_handle;
 	}
 	return NULL;
