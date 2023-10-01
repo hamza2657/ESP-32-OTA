@@ -1,110 +1,189 @@
 /* Reset some default styles */
-body, h1, h2, h3, h4 {
+body {
     margin: 0;
     padding: 0;
-}
-
-body {
-    background-color: #f0f0f0;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f4f4f4; /* Light background color */
     color: #333;
 }
 
+
 /* Header */
 header {
-    background-color: #0074cc;
-    color: #fff;
+    background: linear-gradient(to right, rgba(170, 0, 204, 0.7), rgba(0, 255, 43, 0.7)); /* Gradient background */
     text-align: center;
     padding: 20px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: 'Times New Roman', Times, serif;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow */
+    position: sticky; /* Fix the header position */
+    top: 0; /* Stick it to the top of the viewport */
+    width: 100%; /* Full width of the viewport */
+    z-index: 1000; /* Ensure it's above other content */
 }
 
+
 h1 {
-    font-size: 28px;
+    font-size: 32px; /* Larger font size */
     text-transform: uppercase;
-    letter-spacing: 3px;
-    margin: 10px 0;
+    letter-spacing: 4px;
+    margin: 20px 0;
+    color: #0b0910; /* Header text color */
 }
 
 /* Content Sections */
-#OTA, #DHT11Sensor {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-}
-.gr{
-    color: green;
-}
-.rd{
-    color: red;
+#ConnectionInfo,
+#WiFiConnect,
+#OTA,
+#DHT11Sensor {
+    background: #f9f9f9; /* Light gray background */
+    border: 2px solid #0074cc; /* Blue border */
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-#latest_firmware, #latest_firmware_label {
-	display:inline;
-}
-#latest_firmware {
-	color: #1d3557;
+.gr {
+    color: #4caf50; /* Green color for positive elements */
 }
 
-h2 {
-    font-size: 24px;
-    color: #0074cc;
-    margin-bottom: 15px;
-}
-
-label {
-    font-weight: bold;
-    font-size: 18px;
-    color: #555;
-    display: inline-block;
-    margin-bottom: 5px;
-}
-
-div {
-   
-    margin-bottom: 15px;
+.rd {
+    color: #e53935; /* Red color for negative elements */
 }
 
 /* Apply styles only to the elements with the "reading" class */
 .reading {
     display: inline-block;
-    margin-left: 10px; /* Add margin for spacing */
+    font-family: 'Times New Roman', Times, serif;
+    margin-left: 15px; /* Slightly more spacing */
 }
+
 /* Buttons */
 .buttons {
     text-align: center;
-    margin-top: 20px;
+    
+    margin-top: 30px; /* More spacing at the top */
 }
 
-input[type="file"], input[type="button"] {
-    font-size: 16px;
+input[type="file"],
+input[type="button"] {
+    font-size: 18px; /* Larger font size */
     border: none;
-    padding: 10px 20px;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 15px 25px;
     text-align: center;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 input[type="file"] {
-    background-color: #0074cc;
-    display: none;
+    background: #0074cc; /* Blue background for file input */
 }
 
 input[type="button"] {
-    background-color: #00aaff;
-    box-shadow: 0px 4px 8px rgba(0, 170, 255, 0.2);
+    background: #00aaff; /* Light blue background for buttons */
+    box-shadow: 0px 6px 12px rgba(0, 170, 255, 0.2);
 }
 
 input[type="button"]:hover {
-    background-color: #005aa6;
+    background: #005aa6; /* Darker blue on hover */
 }
 
 input[type="button"]:active {
     box-shadow: none;
     transform: translateY(2px);
+}
+
+.dhtlabel{
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+/* ... Rest of your styles ... */
+
+
+#WiFiConnect h2 {
+    font-size: 20px; /* Heading font size */
+    color: #333; /* Heading text color */
+    margin-bottom: 10px;
+}
+
+#WiFiConnect input[type="text"],
+#WiFiConnect input[type="password"] {
+    width: 30%; /* Adjust width as needed */
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#WiFiConnect input[type="checkbox"] {
+    margin-right: 5px;
+    cursor: pointer;
+    vertical-align: middle; /* Align the checkbox vertically with the password input */
+}
+
+#WiFiConnect input[type="checkbox"] + label {
+    font-size: 12px; /* Checkbox label font size */
+    color: #555; /* Checkbox label text color */
+}
+
+#WiFiConnect input[type="button"] {
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#WiFiConnect input[type="button"]:hover {
+    background-color: #0056b3; /* Button background color on hover */
+}
+
+#wifi_connect_credential_error {
+    color: #ff0000; /* Error message text color */
+    font-size: 12px; /* Error message font size */
+    margin-top: 10px;
+}
+
+#wifi_connect_status {
+    font-size: 16px; /* Status message font size */
+    color: #009900; /* Status message text color */
+    margin-top: 10px;
+}
+
+
+
+
+h1, h2, h3, h4 {
+    margin: 0;
+    padding: 0;
+}
+#connect_ap_label,#netmask_label,#gateway_label,#ip_address_label
+{
+    display: inline-block;
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+#connected_ap,#connected_ip,#connected_netmask,#connected_gateway 
+{
+    display: inline-block;
+    color: #0056b3;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-weight: bold;
+    margin-left: 15px; /* Slightly more spacing */
+    margin-right: 15px;
+}
+
+#ConnectionInfo {
+    display: none; /* Hide the element by default */
+    /* Other styles for this element */
 }

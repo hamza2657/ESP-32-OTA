@@ -30,15 +30,15 @@
 		<div id="DHT11Sensor">
 			<h2>DHT11 Sensor Readings</h2>
 			<div>
-				<label for="Sensor_status">Sensor Authentication:</label>
+				<label for="Sensor_status" class="dhtlabel">Sensor Authentication:</label>
 				<div id="Sensor_status" class="reading"></div>
 			</div>
 			<div>
-				<label for="temperature_Readings">Temperature:</label>
+				<label for="temperature_Readings" class="dhtlabel">Temperature:</label>
 				<div id="temperature_Readings" class="reading"></div>
 			</div>
 			<div>
-				<label for="humidity_reading">Humidity:</label>
+				<label for="humidity_reading" class="dhtlabel">Humidity:</label>
 				<div id="humidity_reading" class="reading"></div>
 			</div>
 		</div>
@@ -46,15 +46,27 @@
 		<div id="WiFiConnect">
 			<h2>WiFi Connect</h2>
 			<section>
-				<input id="Connect_ssid" type="text" maxlength="32" placeholder="SSID" value="">
-				<input id="Connect_pass" type="password" maxlength="64" placeholder="Password" value="">
+				<input id="connect_ssid" type="text" maxlength="32" placeholder="SSID" value="">
+				<input id="connect_pass" type="password" maxlength="64" placeholder="Password" value="">
 				<input type="checkbox" onclick="showPassword()">show Password
 			</section>
 			<div class="buttons">
-				<input id="connect_wifi" type="button" value="Connect"/>
+				<input id="connect_wifi" type="button" value="Connect">
 			</div>
 			<div id="wifi_connect_credential_error"></div>
 			<h4 id="wifi_connect_status"></h4>
+			<div id="ConnectionInfo">
+				<section>
+					<div id="connect_ap_label"></div><div id="connected_ap"></div>
+				</section>
+				<div id="ip_address_label"></div><div id="connected_ip" ></div>
+				<div id="netmask_label"></div><div id="connected_netmask" ></div>
+				<div id="gateway_label"></div><div id="connected_gateway" ></div>
+				<div class="buttons">
+					<input type="button" id="disconnect_wifi" value="Disconnect" />
+				</div>
+			</div>
 		</div>
+		<hr>
 	</body>
 <html>

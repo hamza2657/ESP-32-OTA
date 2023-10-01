@@ -11,6 +11,7 @@ var wifiConnectInterval = null;
 $(document).ready(function(){
 	getUpdateStatus();
     startDHT11SensorInterval();
+    getConnectInfo();
     $("#connect_wifi").on("click",function(){
         checkCredentials();
     })
@@ -158,23 +159,26 @@ function getWifiConnectStatus()
     var requestURL = "/wifiConnectStatus";
     xhr.open('POST',requestURL,false);
     xhr.send('wifi_connect_status');
-
     if(xhr.readyState == 4 && xhr.status == 200)
     {
+        document.getElementById("wifi_connect_status").innerHTML = "<h4 class='rd'>Connecting...</h4>";
         var response = JSON.parse(xhr.responseText);
-        document.getElementById("wifi_connect_status").innerHTML = "Connecting...";
         if(response.wifi_connect_status == 2)
         {
             document.getElementById("wifi_connect_status").innerHTML = "<h4 class='rd'>Failed to Connect. Check you credentials</h4>";
             stopWifiConnectStatusInterval();
         }
-        else if(response.wifi_connect_status == 2)
+        else if(response.wifi_connect_status == 3)
         {
             document.getElementById("wifi_connect_status").innerHTML = "<h4 class='gr'>Connected Successfully</h4>";
             stopWifiConnectStatusInterval();
+            getConnectInfo();
         }
     }
 }
+
+
+
 /**
  * start the interval for checking the connection status
  */
@@ -188,8 +192,8 @@ function startWifiConnectStatusInterval()
 function connectWifi()
 {
     //Get the SSID
-    selectedSSID = $("#Connect_ssid").val();
-    pwd = $("#Connect_pass").val();
+    selectedSSID = $("#connect_ssid").val();
+    pwd = $("#connect_pass").val();
     $.ajax({
         url: '/wifiConnect.json',
         dataType: 'json',
@@ -235,7 +239,7 @@ function checkCredentials()
  */
 function showPassword()
 {
-    var x = document.getElementById("Connect_pass");
+    var x = document.getElementById("connect_pass");
     if(x.type === "password")
     {
         x.type = "text";
@@ -244,4 +248,25 @@ function showPassword()
     {
         x.type = "password";
     }
+}
+/**
+ * gets the connection information for webpage
+ */
+function getConnectInfo()
+{
+     $.getJSON('/wifiConnectInfo.json',function(data){
+         $("#connect_ap_label").html("Connected to: ");
+         $("#connected_ap").text(data["ap"]);
+
+         $("#ip_address_label").html("IP Address: ");
+         $("#connected_ip").text(data["ip"]);
+
+         $("#netmask_label").html("Netmask: ");
+         $("#connected_netmask").text(data["netmask"]);
+
+         $("#gateway_label").html("GateWay: ");
+         $("#connected_gateway").text(data["gw"]);
+
+         document.getElementById('ConnectionInfo').style.display = 'block';
+     })
 }

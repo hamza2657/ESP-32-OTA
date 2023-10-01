@@ -1,0 +1,2 @@
+C:\Espressif\frameworks\esp-idf-v5.0.2\tools\check_python_dependencies.py:12: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  import pkg_resources
