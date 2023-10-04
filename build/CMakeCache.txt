@@ -505,7 +505,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=82
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=86
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -551,7 +551,7 @@ C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS:INTERNAL=1
 //Details about finding Git
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Program Files/Git/cmd/git.exe][v2.42.0.windows.2()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe][cfound components: Interpreter ][v3.11.2()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Users/hamxa/AppData/Local/Programs/Python/Python311/python.exe][cfound components: Interpreter ][v3.11.5()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include stddef.h
@@ -566,8 +566,9 @@ HAVE_TIME_T_SIZE:INTERNAL=TRUE
 TIME_T_SIZE:INTERNAL=8
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/esp32_app
-_Python3_EXECUTABLE:INTERNAL=C:/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe
+//Path to a program.
+_Python3_EXECUTABLE:INTERNAL=C:/Users/hamxa/AppData/Local/Programs/Python/Python311/python.exe
 //Python3 Properties
-_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;2;32;;;C:\Espressif\tools\idf-python\3.11.2\Lib;C:\Espressif\tools\idf-python\3.11.2\Lib;C:\Espressif\python_env\idf5.0_py3.11_env\Lib\site-packages;C:\Espressif\python_env\idf5.0_py3.11_env\Lib\site-packages
-_Python3_INTERPRETER_SIGNATURE:INTERNAL=847c93e0c2acb67ae3a18b8749a0bc3f
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;5;32;;;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib\site-packages;C:\Users\hamxa\AppData\Local\Programs\Python\Python311\Lib\site-packages
+_Python3_INTERPRETER_SIGNATURE:INTERNAL=715bad77f9bb4f2c47e1e583c9aeff6b
 

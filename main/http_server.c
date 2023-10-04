@@ -4,8 +4,9 @@
  *  Created on: Sep 27, 2023
  *      Author: hamxa
  */
-#include "esp_ota_ops.h"
 #include "esp_http_server.h"
+//#include "aws_iot.h"
+#include "esp_ota_ops.h"
 #include "esp_log.h"
 #include "lwip/ip_addr.h"
 #include "esp_wifi.h"
@@ -18,11 +19,15 @@
 #include "wifi_app.h"
 #include "string.h" 
 #include "stdint.h"
+#include "sntp_time_sync.h"
 
 //Tag used for ESP serial console messages
 static const char TAG[] = "http_server";
 //wifi connect status
 static int g_wifi_connect_status = NONE; 
+
+//Local time status
+static bool g_is_local_time_set = false;
 
 //Firmware update status
 static int g_fw_update_status = OTA_UPDATE_PENDING;
@@ -87,37 +92,64 @@ static void http_server_fw_update_reset_timer(void)
 static void http_server_monitor(void *parameter)
 {
 	http_server_queue_message_t msg;
-	for(;;)
-	{
-		if(xQueueReceive(http_server_monitor_queue_handle, &msg, portMAX_DELAY))
+
+		for (;;)
 		{
-			switch (msg.msgID) {
-				case HTTP_MSG_WIFI_CONNECT_INIT:
-					ESP_LOGI(TAG, "HTTP_MSG_WIFI_CONNECT_INIT");
-					g_wifi_connect_status = HTTP_WIFI_STATUS_CONNECTING;
-					break;
-				case HTTP_MSG_WIFI_CONNECT_SUCCESS:
-					ESP_LOGI(TAG, "HTTP_MSG_WIFI_CONNECT_SUCCESS");
-					g_wifi_connect_status = HTTP_WIFI_STATUS_CONNECT_SUCCESS;
-					break;
-				case HTTP_MSG_WIFI_CONNECT_FAIL:
-					ESP_LOGI(TAG, "HTTP_MSG_WIFI_CONNECT_FAIL");
-					g_wifi_connect_status = HTTP_WIFI_STATUS_CONNECT_FAILED;
-					break;
-				case HTTP_MSG_OTA_UPDATE_SUCCESSFUL:
-					ESP_LOGI(TAG, "HTTP_MSG_OTA_UPDATE_SUCCESSFUL");
-					g_fw_update_status = OTA_UPDATE_SUCCESSFULL;
-					http_server_fw_update_reset_timer();
-					break;
-				case HTTP_MSG_OTA_UPDATE_FAILED:
-					ESP_LOGI(TAG, "HTTP_MSG_OTA_UPDATE_FAILED");
-					g_fw_update_status = OTA_UPDATE_FAILED;
-					break;
-				default:
-					break;
+			if (xQueueReceive(http_server_monitor_queue_handle, &msg, portMAX_DELAY))
+			{
+				switch (msg.msgID)
+				{
+					case HTTP_MSG_WIFI_CONNECT_INIT:
+						ESP_LOGI(TAG, "HTTP_MSG_WIFI_CONNECT_INIT");
+						
+						g_wifi_connect_status = HTTP_WIFI_STATUS_CONNECTING;
+						break;
+
+					case HTTP_MSG_WIFI_CONNECT_SUCCESS:
+						ESP_LOGI(TAG, "HTTP_MSG_WIFI_CONNECT_SUCCESS");
+
+						g_wifi_connect_status = HTTP_WIFI_STATUS_CONNECT_SUCCESS;
+
+						break;
+
+					case HTTP_MSG_WIFI_CONNECT_FAIL:
+						ESP_LOGI(TAG, "HTTP_MSG_WIFI_CONNECT_FAIL");
+
+						g_wifi_connect_status = HTTP_WIFI_STATUS_CONNECT_FAILED;
+
+						break;
+
+					case HTTP_MSG_WIFI_USER_DISCONNECT:
+						ESP_LOGI(TAG, "HTTP_MSG_WIFI_USER_DISCONNECT");
+
+						g_wifi_connect_status = HTTP_WIFI_STATUS_DISCONNECTED;
+
+						break;
+
+					case HTTP_MSG_OTA_UPDATE_SUCCESSFUL:
+						ESP_LOGI(TAG, "HTTP_MSG_OTA_UPDATE_SUCCESSFUL");
+						g_fw_update_status = OTA_UPDATE_SUCCESSFULL;
+						http_server_fw_update_reset_timer();
+
+						break;
+
+					case HTTP_MSG_OTA_UPDATE_FAILED:
+						ESP_LOGI(TAG, "HTTP_MSG_OTA_UPDATE_FAILED");
+						g_fw_update_status = OTA_UPDATE_FAILED;
+
+						break;
+
+					case HTTP_MSG_TIME_SERVICE_INITIALIZED:
+						ESP_LOGI(TAG, "HTTP_MSG_TIME_SERVICE_INITIALIZED");
+						g_is_local_time_set = true;
+
+						break;
+
+					default:
+						break;
+				}
 			}
 		}
-	}
 }
 
 /**
@@ -423,7 +455,63 @@ static esp_err_t http_server_get_wifi_connect_info_handler(httpd_req_t *req)
 		
 		return ESP_OK;
 }
+/**
+ * @fn esp_err_t http_server_wifi_disconnect_json_handler(httpd_req_t*)
+ * @brief responds by sending a message to the wifi applicaion to disconnect
+ * 
+ * @param req  HTTP request for which the uri needs to be handled
+ * @return ESP_OK
+ */
+static esp_err_t http_server_wifi_disconnect_json_handler(httpd_req_t *req)
+{
+	ESP_LOGI(TAG, "/wifiDisconnect.json requested");
+	wifi_app_send_message(WIFI_APP_MSG_USER_REQUESTED_STA_DISCONNECT);
+	return ESP_OK;
+}
 
+/**
+ * @fn esp_err_t http_server_get_local_time_json_handler(httpd_req_t*)
+ * @brief respond by sending the local time.
+ * 
+ * @param req  HTTP request for which the uri needs to be handled
+ * @return ESP_OK
+ */
+static esp_err_t http_server_get_local_time_json_handler(httpd_req_t *req)
+{
+	ESP_LOGI(TAG, "/localTime.json requested");
+	
+	char localTimeJSON[100] = {0};
+	if(g_is_local_time_set)
+	{
+		sprintf(localTimeJSON, "{\"time\":\"%s\"}", sntp_time_sync_get_time());
+	}
+	httpd_resp_set_type(req, "application/json");
+	httpd_resp_send(req, localTimeJSON, strlen(localTimeJSON));
+			
+	return ESP_OK;
+}
+
+/**
+ * @fn esp_err_t http_server_get_ap_ssid_json_handler(httpd_req_t*)
+ * @brief respond by sending the ap ssid
+ * 
+ * @param req  HTTP request for which the uri needs to be handled
+ * @return ESP_OK
+ */
+static esp_err_t http_server_get_ap_ssid_json_handler(httpd_req_t *req)
+{
+	ESP_LOGI(TAG, "/apSSID.json requested");
+	
+	char ssidJSON[50] = {0};
+	wifi_config_t *wifi_config = wifi_app_get_wifi_config();
+	esp_wifi_get_config(ESP_IF_WIFI_AP, wifi_config);
+	char *ssid = (char*)wifi_config->ap.ssid;
+	sprintf(ssidJSON, "{\"ssid\":\"%s\"}",ssid);	
+	httpd_resp_set_type(req, "application/json");
+	httpd_resp_send(req, ssidJSON, strlen(ssidJSON));
+			
+	return ESP_OK;
+}
 static httpd_handle_t http_server_configure()
 {
 	//Generate the default configuration
@@ -543,6 +631,33 @@ static httpd_handle_t http_server_configure()
 				.user_ctx = NULL
 		};
 		httpd_register_uri_handler(http_server_handle, &wifi_connect_info_json);
+		
+		//register wifiDisconnect.json handler 
+		httpd_uri_t wifi_disconnect_json = {
+				.uri = "/wifiDisconnect.json",
+				.method = HTTP_DELETE,
+				.handler = http_server_wifi_disconnect_json_handler,
+				.user_ctx = NULL
+		};
+		httpd_register_uri_handler(http_server_handle, &wifi_disconnect_json);
+		
+		//register localTime.json handler 
+		httpd_uri_t local_time_json = {
+				.uri = "/localTime.json",
+				.method = HTTP_GET,
+				.handler = http_server_get_local_time_json_handler,
+				.user_ctx = NULL
+		};
+		httpd_register_uri_handler(http_server_handle, &local_time_json);
+		
+		//register apSSID.json handler 
+		httpd_uri_t ap_ssid_json = {
+				.uri = "/apSSID.json",
+				.method = HTTP_GET,
+				.handler = http_server_get_ap_ssid_json_handler,
+				.user_ctx = NULL
+		};
+		httpd_register_uri_handler(http_server_handle, &ap_ssid_json);
 		
 		return http_server_handle;
 	}

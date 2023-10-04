@@ -12,7 +12,8 @@
 #include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
 
-
+//Callback typedef 
+typedef void (*wifi_connected_event_callback_t)(void);
 
 //wifi application setting
 #define WIFI_AP_SSID    			"ESP-32 AP"  //AP name
@@ -43,8 +44,10 @@ extern esp_netif_t* esp_netif_ap;
 typedef enum wifi_app_message{
 	WIFI_APP_MSG_START_HTTP_SERVER = 0,
 	WIFI_APP_MSG_CONNECTING_FROM_HTTP_SERVER,
-	WIIF_APP_MSG_STA_CONNECTED_GOT_IP,
-	WIFI_APP_MSG_STA_DISCONNECTED
+	WIFI_APP_MSG_STA_CONNECTED_GOT_IP,
+	WIFI_APP_MSG_USER_REQUESTED_STA_DISCONNECT,
+	WIFI_APP_MSG_LOAD_SAVED_CREDENTIALS,
+	WIFI_APP_MSG_STA_DISCONNECTED,
 }wifi_app_message_e;
 
 /**
@@ -78,9 +81,28 @@ void wifi_app_start(void);
 wifi_config_t* wifi_app_get_wifi_config(void);
 
 
+/**
+ * @fn void wifi_app_set_callback(wifi_connected_event_callback_t)
+ * @brief set the callback function
+ * 
+ * @param cb
+ */
+void wifi_app_set_callback(wifi_connected_event_callback_t cb);
 
+/**
+ * @fn void wifi_app_call_callback(void)
+ * @brief  calls the callback function
+ * 
+ */
+void wifi_app_call_callback(void);
 
-
+/**
+ * @fn int8_t wifi_app_get_rssi(void)
+ * @brief   get the RSSI value of the wifi connection
+ * 
+ * @return	Current RSSI level
+ */
+int8_t wifi_app_get_rssi(void);
 
 
 

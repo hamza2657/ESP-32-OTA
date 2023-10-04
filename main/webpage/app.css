@@ -31,12 +31,14 @@ h1 {
 }
 
 /* Content Sections */
+#LocalTime,
+#ESPSSID,
 #ConnectionInfo,
 #WiFiConnect,
 #OTA,
 #DHT11Sensor {
     background: #f9f9f9; /* Light gray background */
-    border: 2px solid #0074cc; /* Blue border */
+    border: 2px solid #3f484f; /* Blue border */
     border-radius: 15px;
     padding: 30px;
     margin: 30px;
@@ -51,6 +53,12 @@ h1 {
     color: #e53935; /* Red color for negative elements */
 }
 
+  
+
+#local_time,#ap_ssid {
+    display: inline-block;
+
+}
 /* Apply styles only to the elements with the "reading" class */
 .reading {
     display: inline-block;
@@ -152,11 +160,7 @@ input[type="button"]:active {
     margin-top: 10px;
 }
 
-#wifi_connect_status {
-    font-size: 16px; /* Status message font size */
-    color: #009900; /* Status message text color */
-    margin-top: 10px;
-}
+
 
 
 
@@ -172,7 +176,7 @@ h1, h2, h3, h4 {
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
 }
-#connected_ap,#connected_ip,#connected_netmask,#connected_gateway 
+#connected_ap,#connected_ip,#connected_netmask,#connected_gateway
 {
     display: inline-block;
     color: #0056b3;

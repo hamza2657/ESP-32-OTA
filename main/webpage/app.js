@@ -3,17 +3,21 @@
  */
 var seconds 	= null;
 var otaTimerVar =  null;
-var latestUpdateTime = null;
 var wifiConnectInterval = null;
 /**
  * Initialize functions here.
  */
 $(document).ready(function(){
+    getSSID();
 	getUpdateStatus();
     startDHT11SensorInterval();
+    startLocalTimeInterval();
     getConnectInfo();
     $("#connect_wifi").on("click",function(){
         checkCredentials();
+    })
+    $("#disconnect_wifi").on("click",function(){
+        disconnectWifi();
     })
 });   
 
@@ -156,25 +160,27 @@ function stopWifiConnectStatusInterval()
 function getWifiConnectStatus()
 {
     var xhr = new XMLHttpRequest();
-    var requestURL = "/wifiConnectStatus";
-    xhr.open('POST',requestURL,false);
-    xhr.send('wifi_connect_status');
-    if(xhr.readyState == 4 && xhr.status == 200)
-    {
-        document.getElementById("wifi_connect_status").innerHTML = "<h4 class='rd'>Connecting...</h4>";
-        var response = JSON.parse(xhr.responseText);
-        if(response.wifi_connect_status == 2)
-        {
-            document.getElementById("wifi_connect_status").innerHTML = "<h4 class='rd'>Failed to Connect. Check you credentials</h4>";
-            stopWifiConnectStatusInterval();
-        }
-        else if(response.wifi_connect_status == 3)
-        {
-            document.getElementById("wifi_connect_status").innerHTML = "<h4 class='gr'>Connected Successfully</h4>";
-            stopWifiConnectStatusInterval();
-            getConnectInfo();
-        }
-    }
+	var requestURL = "/wifiConnectStatus";
+	xhr.open('POST', requestURL, false);
+	xhr.send('wifi_connect_status');
+    if (xhr.readyState == 4 && xhr.status == 200)
+	{
+		var response = JSON.parse(xhr.responseText);
+		
+		document.getElementById("wifi_connect_status").innerHTML = "Connecting...";
+		
+		if (response.wifi_connect_status == 2)
+		{
+			document.getElementById("wifi_connect_status").innerHTML = "<h4 class='rd'>Failed to Connect. Please check your AP credentials and compatibility</h4>";
+			stopWifiConnectStatusInterval();
+		}
+		else if (response.wifi_connect_status == 3)
+		{
+			document.getElementById("wifi_connect_status").innerHTML = "<h4 class='gr'>Connection Success!</h4>";
+			stopWifiConnectStatusInterval();
+			getConnectInfo();
+		}
+	}
 }
 
 
@@ -270,3 +276,64 @@ function getConnectInfo()
          document.getElementById('ConnectionInfo').style.display = 'block';
      })
 }
+/***
+ * Disconnect wifi when the disconnect button is presssed
+ * and we will reload the webpage
+ */
+
+function disconnectWifi()
+{
+	$.ajax({
+		url: '/wifiDisconnect.json',
+		dataType: 'json',
+		method: 'DELETE',
+		cache: false,
+		data: { 'timestamp': Date.now() }
+	});
+	// Update the web page
+	setTimeout("location.reload(true);", 2000);
+}
+
+/**
+ * sets the interval for displaying the local time
+ */
+function startLocalTimeInterval()
+{
+    setInterval(getLocalTime,900);
+}
+
+/**
+ * Gets the local time
+ * @note connect the ESP32 to the internet and the time will be updated.
+ */
+function getLocalTime()
+{
+    $.getJSON('/localTime.json',function(data){
+        $("#local_time").text(data["time"]);
+    });
+}
+
+/**
+ * Gets the esp32 AP ssid for displaying on the webpage
+ */
+function getSSID()
+{
+    $.getJSON('/apSSID.json',function(data){
+        $("#ap_ssid").text(data["ssid"]);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
